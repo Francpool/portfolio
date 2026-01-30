@@ -130,10 +130,10 @@ const Navbar = () => {
             >
               {language === 'en' ? 'EN' : 'ES'}
             </button>
-            <a href="https://github.com/Paul9804" target="_blank" rel="noreferrer" className="social-icon">
+            <a href="https://github.com/Francpool" target="_blank" rel="noreferrer" className="social-icon">
               <FaGithub size={26} />
             </a>
-            <a href="https://linkedin.com/in/paul-mayorga-automation" target="_blank" rel="noreferrer" className="social-icon">
+            <a href="https://www.linkedin.com/in/francpool/" target="_blank" rel="noreferrer" className="social-icon">
               <FaLinkedin size={26} />
             </a>
           </div>
