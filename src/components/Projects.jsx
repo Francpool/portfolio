@@ -11,7 +11,7 @@ const Projects = () => {
     const [calendarYear, setCalendarYear] = useState('last');
 
     const years = [
-        { label: 'Último año', value: 'last' },
+        { label: t.lastYear, value: 'last' },
         { label: '2026', value: 2026 },
         { label: '2025', value: 2025 },
         { label: '2024', value: 2024 }
@@ -21,10 +21,10 @@ const Projects = () => {
         <section id="projects" style={{ backgroundColor: 'var(--secondary-bg)' }}>
             <div className="container">
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', textAlign: 'center' }}>
-                    Cada commit <span className="text-gradient">cuenta</span>
+                    {t.headerTitle} <span className="text-gradient">{t.headerHighlight}</span>
                 </h2>
                 <p style={{ textAlign: 'center', color: '#888', marginBottom: '3rem' }}>
-                    Una selección de mis trabajos recientes.
+                    {t.headerDescription}
                 </p>
 
                 {/* GitHub Calendar */}
@@ -113,7 +113,7 @@ const Projects = () => {
                                     letterSpacing: '0.5px',
                                     boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                                 }}>
-                                    WEBSITE
+                                    {t.websiteBadge}
                                 </div>
                             </div>
 

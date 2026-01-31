@@ -11,6 +11,14 @@ import rtecImage5 from '../assets/rtgallery.png';
 import rtecImage6 from '../assets/rtgallery2.png';
 import rtecImage7 from '../assets/gallery3.jpg';
 import rtecImage8 from '../assets/gallery4.jpg';
+import hydroponicImage from '../assets/hidropo1.jpeg';
+import hydroponicImage2 from '../assets/hidropo2.jpeg';
+import hydroponicImage3 from '../assets/hidropo3.jpeg';
+import hydroponicImage4 from '../assets/hidropo4.jpeg';
+import hydroponicImage5 from '../assets/hidropo5.jpeg';
+import hydroponicImage6 from '../assets/hidropo6.jpeg';
+import hydroponicImage7 from '../assets/hidropo7.jpeg';
+
 
 export const projects = [
     {
@@ -111,5 +119,32 @@ Finalmente, para el almacenamiento de datos, utilizo MySQL en un servidor Apache
 <img src="${rtecImage4}" alt="Base de Datos" style="width: 100%; border-radius: 8px; margin: 20px 0;" />
 `,
         gallery: [rtecImage5, rtecImage6, rtecImage7, rtecImage8] // Ejemplo de galería use images imported
+    },
+
+    {
+        id: 'Cultivo Hidroponico',
+        title: "IoT-enabled hydroponic cultivation of Green Salad Bowl lettuce in Tungurahua (Ecuador).",
+        description_es: "Cultivo con tecnologia IoT",
+        description_en: "IoT-enabled hydroponic cultivation of Green Salad Bowl lettuce in Tungurahua (Ecuador).",
+        tags: ["ESP32", "Arduino", "Ubidots"],
+        image: hydroponicImage5, // Usar una imagen real cuando se tenga
+        type: "blog",
+        longDescription_en: `
+            In 2020, I conducted research on hydroponic crops. One of the objectives was to evaluate whether the conditions in Ecuador were good enough to grow lettuce without the use of technology and how it could impact the province of Tungurahua, Ecuador.
+In order to achieve this objective, I used technologies like Python, Arduino, Ubidots, and knowledge of hardware development.
+Now that I am living in Canada, I realize that my conclusion about moving forward with new technologies was accurate. Besides, I believe that the new era of AI is important to integrate into my previous research.
+If you want to know a little bit more about my research, you can visit the following link.
+        `,
+        longDescription_es: `
+            En 2020, realicé una investigación sobre cultivos hidropónicos. Uno de los objetivos fue evaluar si las condiciones en Ecuador eran lo suficientemente buenas para cultivar lechuga sin el uso de tecnología y cómo esto podría impactar la provincia de Tungurahua, Ecuador.
+Para lograr este objetivo, utilicé tecnologías como Python, Arduino, Ubidots y conocimientos de desarrollo de hardware.
+Ahora que vivo en Canadá, me doy cuenta de que mi conclusión sobre avanzar con nuevas tecnologías fue acertada. Además, creo que es importante integrar la nueva era de la IA en mi investigación anterior.
+Si desea saber un poco más sobre mi investigación, puede visitar el siguiente enlace.
+        `,
+        gallery: [hydroponicImage, hydroponicImage2, hydroponicImage3, hydroponicImage4, hydroponicImage5, hydroponicImage6, hydroponicImage7] // Ejemplo de galería use images imported
     }
+
+
+
+
 ];

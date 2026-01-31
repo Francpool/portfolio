@@ -23,7 +23,12 @@ export const translations = {
             notFound: "Project not found",
             backHome: "Back to Home",
             gallery: "Project Gallery",
-            visitWebsite: "Visit Website"
+            visitWebsite: "Visit Website",
+            headerTitle: "Every commit",
+            headerHighlight: "counts",
+            headerDescription: "A selection of my recent work.",
+            lastYear: "Last Year",
+            websiteBadge: "WEBSITE"
         },
         footer: {
             rights: "All rights reserved."
@@ -53,7 +58,12 @@ export const translations = {
             notFound: "Proyecto no encontrado",
             backHome: "Volver al inicio",
             gallery: "Galería del Proyecto",
-            visitWebsite: "Ir al sitio web"
+            visitWebsite: "Ir al sitio web",
+            headerTitle: "Cada commit",
+            headerHighlight: "cuenta",
+            headerDescription: "Una selección de mis trabajos recientes.",
+            lastYear: "Último año",
+            websiteBadge: "SITIO WEB"
         },
         footer: {
             rights: "Todos los derechos reservados."

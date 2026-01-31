@@ -103,7 +103,7 @@ const Hero = () => {
                             marginBottom: '1.5rem',
                             lineHeight: 1.1
                         }}>
-                            {t.greeting} Paul<br />
+                            {t.greeting} Paul <br />
                             <span className="text-gradient"> {t.description}</span>
                         </h1>
 
