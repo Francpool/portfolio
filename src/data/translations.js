@@ -32,6 +32,28 @@ export const translations = {
         },
         footer: {
             rights: "All rights reserved."
+        },
+        workMethodology: {
+            titlePrefix: "How do I",
+            titleHighlight: "work?",
+            items: [
+                {
+                    title: "From Idea to Final Product",
+                    desc: "I develop intuitive and attractive solutions, prioritizing user experience in every design decision."
+                },
+                {
+                    title: "Agile Methodology",
+                    desc: "I work with iterative sprints, quickly adapting to changes and new requirements."
+                },
+                {
+                    title: "Clean Code",
+                    desc: "I write maintainable and scalable code, following best practices and modern design patterns."
+                },
+                {
+                    title: "Effective Collaboration",
+                    desc: "Clear and constant communication with the team and stakeholders to ensure optimal results."
+                }
+            ]
         }
     },
     es: {
@@ -67,6 +89,28 @@ export const translations = {
         },
         footer: {
             rights: "Todos los derechos reservados."
+        },
+        workMethodology: {
+            titlePrefix: "¿Cómo",
+            titleHighlight: "trabajo?",
+            items: [
+                {
+                    title: "De la Idea al Producto Final",
+                    desc: "Desarrollo soluciones intuitivas y atractivas, priorizando la experiencia del usuario en cada decisión de diseño."
+                },
+                {
+                    title: "Metodología Ágil",
+                    desc: "Trabajo con sprints iterativos, adaptándome rápidamente a cambios y nuevos requerimientos."
+                },
+                {
+                    title: "Código Limpio",
+                    desc: "Escribo código mantenible y escalable, siguiendo las mejores prácticas y patrones de diseño modernos."
+                },
+                {
+                    title: "Colaboración Efectiva",
+                    desc: "Comunicación clara y constante con el equipo y stakeholders para garantizar resultados óptimos."
+                }
+            ]
         }
     }
 };

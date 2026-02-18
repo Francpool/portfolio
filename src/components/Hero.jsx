@@ -12,7 +12,7 @@ const Hero = () => {
             minHeight: '100vh',
             display: 'flex',
             alignItems: 'center',
-            paddingTop: '80px',
+            paddingTop: '140px',
             position: 'relative'
         }}>
             <div className="container">
