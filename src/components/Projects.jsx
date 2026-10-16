@@ -1,14 +1,62 @@
-import { useState } from 'react';
-import { GitHubCalendar } from 'react-github-calendar';
+import { useState, useEffect } from 'react';
+import { ActivityCalendar } from 'react-activity-calendar';
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../data/translations';
 
+const GITHUB_USERNAME = 'Francpool';
+const GITHUB_THEME = {
+    light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+    dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']
+};
+
+const fetchWithTimeout = async (url, timeoutMs = 5000) => {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+    } finally {
+        clearTimeout(id);
+    }
+};
+
+// Normaliza la respuesta de https://gh-calendar.rschristian.dev/user/{username}
+const normalizeRschristianData = (rawContributions, year) => {
+    const flat = rawContributions.flat().map(day => ({
+        date: day.date,
+        count: Number(day.count) || 0,
+        level: Math.min(4, Math.max(0, Number(day.intensity) || 0))
+    }));
+
+    if (year === 'last') {
+        return flat;
+    }
+
+    const yearStr = String(year);
+    const byDate = new Map(
+        flat.filter(d => d.date.startsWith(`${yearStr}-`)).map(d => [d.date, d])
+    );
+
+    const start = new Date(`${yearStr}-01-01T00:00:00Z`);
+    const end = new Date(`${yearStr}-12-31T00:00:00Z`);
+    const fullYear = [];
+    for (let cur = new Date(start); cur <= end; cur.setUTCDate(cur.getUTCDate() + 1)) {
+        const dateStr = cur.toISOString().slice(0, 10);
+        fullYear.push(byDate.get(dateStr) || { date: dateStr, count: 0, level: 0 });
+    }
+    return fullYear;
+};
+
 const Projects = () => {
     const { language } = useLanguage();
     const t = translations[language].projects;
     const [calendarYear, setCalendarYear] = useState('last');
+    const [calendarData, setCalendarData] = useState([]);
+    const [calendarLoading, setCalendarLoading] = useState(true);
+    const [calendarError, setCalendarError] = useState(false);
 
     const years = [
         { label: t.lastYear, value: 'last' },
@@ -16,6 +64,76 @@ const Projects = () => {
         { label: '2025', value: 2025 },
         { label: '2024', value: 2024 }
     ];
+
+    useEffect(() => {
+        let isMounted = true;
+        const yearKey = String(calendarYear);
+
+        const loadContributions = async () => {
+            setCalendarLoading(true);
+            setCalendarError(false);
+
+            const fetchFromRschristian = async () => {
+                const backupData = await fetchWithTimeout(
+                    `https://gh-calendar.rschristian.dev/user/${GITHUB_USERNAME}`,
+                    5000
+                );
+                if (Array.isArray(backupData?.contributions) && backupData.contributions.length > 0) {
+                    return normalizeRschristianData(backupData.contributions, calendarYear);
+                }
+                throw new Error('Invalid rschristian response');
+            };
+
+            const fetchFromJogruber = async () => {
+                const urls = [
+                    `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=${yearKey}`,
+                    ...(import.meta.env.DEV
+                        ? [`/api/github-contributions/${GITHUB_USERNAME}?y=${yearKey}`]
+                        : [])
+                ];
+                for (const url of urls) {
+                    try {
+                        const data = await fetchWithTimeout(url, 5000);
+                        if (Array.isArray(data?.contributions) && data.contributions.length > 0) {
+                            return data.contributions;
+                        }
+                    } catch {
+                        // Intentar siguiente URL
+                    }
+                }
+                throw new Error('Jogruber unavailable');
+            };
+
+            // Para 'last' y '2026' priorizamos rschristian.dev porque jogruber.de está rechazando conexiones
+            const strategies =
+                calendarYear === 'last' || calendarYear === 2026
+                    ? [fetchFromRschristian, fetchFromJogruber]
+                    : [fetchFromJogruber, fetchFromRschristian];
+
+            for (const strategy of strategies) {
+                try {
+                    const contributions = await strategy();
+                    if (isMounted) {
+                        setCalendarData(contributions);
+                        setCalendarLoading(false);
+                    }
+                    return;
+                } catch {
+                    // Si falla una API en vivo, pasa automáticamente a la otra
+                }
+            }
+
+            if (isMounted) {
+                setCalendarError(true);
+                setCalendarLoading(false);
+            }
+        };
+
+        loadContributions();
+        return () => {
+            isMounted = false;
+        };
+    }, [calendarYear]);
 
     return (
         <section id="projects" style={{ backgroundColor: 'var(--secondary-bg)' }}>
@@ -59,14 +177,25 @@ const Projects = () => {
                         ))}
                     </div>
 
-                    <GitHubCalendar
-                        username="Francpool"
-                        year={calendarYear}
-                        blockSize={15}
-                        blockMargin={5}
-                        colorScheme="dark"
-                        fontSize={16}
-                    />
+                    {calendarError ? (
+                        <div style={{ color: '#888' }}>
+                            Error – Fetching GitHub contribution data for "{GITHUB_USERNAME}" failed.
+                        </div>
+                    ) : (
+                        <ActivityCalendar
+                            data={calendarData}
+                            loading={calendarLoading}
+                            blockSize={15}
+                            blockMargin={5}
+                            colorScheme="dark"
+                            theme={GITHUB_THEME}
+                            fontSize={16}
+                            maxLevel={4}
+                            labels={{
+                                totalCount: `{{count}} contributions in ${calendarYear === 'last' ? 'the last year' : calendarYear}`
+                            }}
+                        />
+                    )}
                 </div>
 
                 {/* Projects Grid */}
